@@ -1,11 +1,13 @@
 from django.shortcuts import render, redirect
 from .models import Room, Message
 from django.http import HttpResponse, JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 
+csrf_exempt
 def home(request):
     return render(request, 'home.html')
 
-
+csrf_exempt
 def room(request, room):
     username = request.GET.get('username') # henry
     room_details = Room.objects.get(name=room)
@@ -16,7 +18,7 @@ def room(request, room):
         'room_details': room_details,
     })
 
-
+csrf_exempt
 def checkview(request):
     room = request.POST['room_name']
     username = request.POST['username']
@@ -28,6 +30,7 @@ def checkview(request):
         new_room.save()
         return redirect('/'+room+'/?username='+username)
 
+csrf_exempt
 def send(request):
     message = request.POST['message']
     username = request.POST['username']
@@ -37,6 +40,7 @@ def send(request):
     new_message.save()
     # return HttpResponse("Hi, Message Sent Successfully!!")
 
+csrf_exempt
 def getMessages(request,  room):
     room_details = Room.objects.get(name=room)
     messages = Message.objects.filter(room=room_details.id)
